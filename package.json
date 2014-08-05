@@ -1,6 +1,6 @@
 {
   "name": "http-master-proxy",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "use etcd to proxy mutable HTTP traffic to an elected master in a cluster",
   "main": "index.js",
   "scripts": {
