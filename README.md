@@ -43,16 +43,16 @@ var proxy = masterProxy(function(next){
 
 var server = http.createServer(proxy(function(req, res){
 	
-	if(req.url=='/leader'){
-		res.end(node.value())
+	if(req.url=='/api/v1/leader'){
+		res.end(node.id() + "\n")
 		return
 	}
 
 	if(req.method=='GET'){
-		res.end('get ' + serverid)
+		res.end('get ' + serverid + "\n")
 	}
 	else{
-		res.end('post ' + serverid)
+		res.end('post ' + serverid + "\n")
 	}
 }))
 
@@ -63,19 +63,19 @@ server.listen(process.env.NODEPORT)
 If we ran 3 copies of the server above:
 
 ```bash
-$ NODEID=node1 NODEPORT=8080 node server.js
-$ NODEID=node2 NODEPORT=8081 node server.js
-$ NODEID=node3 NODEPORT=8082 node server.js
+$ NODEID=node1 NODEPORT=8080 node example.js
+$ NODEID=node2 NODEPORT=8081 node example.js
+$ NODEID=node3 NODEPORT=8082 node example.js
 ```
 
 We can see that the server we hit will handle the request:
 
 ```bash
-$ curl -L http://127.0.0.1:8080/api/v1/post
+$ curl -L http://127.0.0.1:8080/api/v1/blog
 get node1
-$ curl -L http://127.0.0.1:8081/api/v1/post
+$ curl -L http://127.0.0.1:8081/api/v1/blog
 get node2
-$ curl -L http://127.0.0.1:8082/api/v1/post
+$ curl -L http://127.0.0.1:8082/api/v1/blog
 get node3
 ```
 
@@ -89,11 +89,11 @@ node2
 Then we should expect node2 to handle all POST requests across the whole cluster:
 
 ```bash
-$ curl -L http://127.0.0.1:8080/api/v1/post -XPUT -d value=bar
+$ curl -L http://127.0.0.1:8080/api/v1/blog -XPUT -d value=bar
 post node2
-$ curl -L http://127.0.0.1:8081/api/v1/post -XPUT -d value=bar
+$ curl -L http://127.0.0.1:8081/api/v1/blog -XPUT -d value=bar
 post node2
-$ curl -L http://127.0.0.1:8082/api/v1/post -XPUT -d value=bar
+$ curl -L http://127.0.0.1:8082/api/v1/blog -XPUT -d value=bar
 post node2
 ```
 
