@@ -76,6 +76,8 @@ tape('write to master - read from slaves', function(t){
   server2.autoListen()
   server3.autoListen()
 
+  var choosenLeader = null
+
   async.series([
     function(next){
       setTimeout(next, 1500)
@@ -83,6 +85,7 @@ tape('write to master - read from slaves', function(t){
     function(next){
       hyperquest('http://127.0.0.1:8082/leader').pipe(concat(function(leader){
         leader = leader.toString()
+        choosenLeader = leader
         t.ok(leader.indexOf('127.0.0.1:808')==0, 'the leader is elected')
         next()
       }))
@@ -90,21 +93,21 @@ tape('write to master - read from slaves', function(t){
     function(next){
       hyperquest('http://127.0.0.1:8080/hello').pipe(concat(function(result){
         result = result.toString()
-        console.log(result)
+        t.equal(result, 'read: 127.0.0.1:8080', '8080 read')
         next()
       }))
     },
     function(next){
       hyperquest('http://127.0.0.1:8081/hello').pipe(concat(function(result){
         result = result.toString()
-        console.log(result)
+        t.equal(result, 'read: 127.0.0.1:8081', '8081 read')
         next()
       }))
     },
     function(next){
       hyperquest('http://127.0.0.1:8082/hello').pipe(concat(function(result){
         result = result.toString()
-        console.log(result)
+        t.equal(result, 'read: 127.0.0.1:8082', '8082 read')
         next()
       }))
     }
