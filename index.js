@@ -27,7 +27,7 @@ module.exports = function(selectedfn, addressfn){
 						method:req.method,
 						headers:req.headers
 					})
-					if(method=='GET'||method=='DELETE'){
+					if(req.method=='GET'||req.method=='DELETE'){
 						proxy.pipe(res)
 					}
 					else{

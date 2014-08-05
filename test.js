@@ -111,28 +111,25 @@ tape('write to master - read from slaves', function(t){
       }))
     },
     function(next){
-      var p = hyperquest.post('http://127.0.0.1:8080/hello').pipe(concat(function(result){
+      hyperquest.delete('http://127.0.0.1:8080/hello').pipe(concat(function(result){
         result = result.toString()
         t.equal(result, 'write: ' + choosenLeader, '8080 write')
         next()
       }))
-      p.end()
     },
     function(next){
-      var p = hyperquest.post('http://127.0.0.1:8081/hello').pipe(concat(function(result){
+      hyperquest.delete('http://127.0.0.1:8081/hello').pipe(concat(function(result){
         result = result.toString()
-        t.equal(result, 'write: ' + choosenLeader, '8080 write')
+        t.equal(result, 'write: ' + choosenLeader, '8081 write')
         next()
       }))
-      p.end()
     },
     function(next){
-      var p = hyperquest.post('http://127.0.0.1:8082/hello').pipe(concat(function(result){
+      hyperquest.delete('http://127.0.0.1:8082/hello').pipe(concat(function(result){
         result = result.toString()
-        t.equal(result, 'write: ' + choosenLeader, '8080 write')
+        t.equal(result, 'write: ' + choosenLeader, '8082 write')
         next()
       }))
-      p.end()
     }
   ], function(){
     server1.autoClose()
