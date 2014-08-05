@@ -1,0 +1,38 @@
+{
+  "name": "http-master-proxy",
+  "version": "0.0.1",
+  "description": "use etcd to proxy mutable HTTP traffic to an elected master in a cluster",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/binocarlos/http-master-proxy.git"
+  },
+  "keywords": [
+    "etcd",
+    "cluster",
+    "http",
+    "proxy",
+    "master",
+    "leader",
+    "election"
+  ],
+  "author": "Kai Davenport",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/binocarlos/http-master-proxy/issues"
+  },
+  "homepage": "https://github.com/binocarlos/http-master-proxy",
+  "devDependencies": {
+    "async": "^0.9.0",
+    "concat-stream": "^1.4.6",
+    "etcdjs": "^1.1.1",
+    "locked": "^2.1.0",
+    "tape": "^2.14.0"
+  },
+  "dependencies": {
+    "hyperquest": "^0.3.0"
+  }
+}
