@@ -37,7 +37,7 @@ module.exports = function(selectedfn, addressfn){
 						res.statusCode = 500
 						res.end(err)
 					})
-				})
+				}
 			}
 		}
 	}
