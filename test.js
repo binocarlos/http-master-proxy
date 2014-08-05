@@ -46,9 +46,7 @@ function makeServer(id, port){
       res.end('read: ' + value)
     }
     else{
-      proxy(req, res, function(){
-        res.end('write: ' + value)
-      })
+      res.end('write: ' + value)
     }
   }))
 
@@ -86,6 +84,7 @@ tape('write to master - read from slaves', function(t){
       hyperquest('http://127.0.0.1:8082/leader').pipe(concat(function(leader){
         leader = leader.toString()
         choosenLeader = leader
+        console.log('leader: ' + leader)
         t.ok(leader.indexOf('127.0.0.1:808')==0, 'the leader is elected')
         next()
       }))
@@ -110,6 +109,30 @@ tape('write to master - read from slaves', function(t){
         t.equal(result, 'read: 127.0.0.1:8082', '8082 read')
         next()
       }))
+    },
+    function(next){
+      var p = hyperquest.post('http://127.0.0.1:8080/hello').pipe(concat(function(result){
+        result = result.toString()
+        t.equal(result, 'write: ' + choosenLeader, '8080 write')
+        next()
+      }))
+      p.end()
+    },
+    function(next){
+      var p = hyperquest.post('http://127.0.0.1:8081/hello').pipe(concat(function(result){
+        result = result.toString()
+        t.equal(result, 'write: ' + choosenLeader, '8080 write')
+        next()
+      }))
+      p.end()
+    },
+    function(next){
+      var p = hyperquest.post('http://127.0.0.1:8082/hello').pipe(concat(function(result){
+        result = result.toString()
+        t.equal(result, 'write: ' + choosenLeader, '8080 write')
+        next()
+      }))
+      p.end()
     }
   ], function(){
     server1.autoClose()
