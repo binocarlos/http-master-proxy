@@ -89,11 +89,11 @@ node2
 Then we should expect node2 to handle all POST requests across the whole cluster:
 
 ```bash
-$ curl -L http://127.0.0.1:8080/api/v1/blog -XPUT -d value=bar
+$ curl -L http://127.0.0.1:8080/api/v1/blog -XPOST -d value=bar
 post node2
-$ curl -L http://127.0.0.1:8081/api/v1/blog -XPUT -d value=bar
+$ curl -L http://127.0.0.1:8081/api/v1/blog -XPOST -d value=bar
 post node2
-$ curl -L http://127.0.0.1:8082/api/v1/blog -XPUT -d value=bar
+$ curl -L http://127.0.0.1:8082/api/v1/blog -XPOST -d value=bar
 post node2
 ```
 
