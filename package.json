@@ -33,6 +33,6 @@
     "tape": "^2.14.0"
   },
   "dependencies": {
-    "hyperquest": "^0.3.0"
+    "hyperprox": "^1.0.0"
   }
 }
