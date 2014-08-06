@@ -35,10 +35,16 @@ var node = locker({
 	ttl:10
 })
 
-var proxy = masterProxy(function(next){
-	next(null, node.isSelected())
-},function(next){
-	next(null, node.value())
+var proxy = masterProxy(function(){
+
+	// return if the current server is the leader
+	return node.isSelected()
+
+},function(){
+
+	// return the address of the current leader
+	return node.value()
+	
 })
 
 var server = http.createServer(proxy(function(req, res){
